@@ -1,8 +1,8 @@
-// index.js
+
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const exchangeRateService = require('./services/exchangeRateService');
+const exchangeRateService = require('./services/exchangeRates.service');
 const app = express();
 
 
@@ -34,8 +34,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
-app.use('/api/users', require('./routes/users')); // Create a separate file for user routes
-app.use('/api/alerts', require('./routes/alerts')); // Create a separate file for alert routes
+app.use('/api/users', require('./routes/v1/users.route')); // Create a separate file for user routes
+app.use('/api/alerts', require('./routes/v1/alerts.route')); // Create a separate file for alert routes
 
 // Start server
 const PORT = process.env.PORT || 3000;

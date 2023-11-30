@@ -26,8 +26,10 @@ const alertSchema = new mongoose.Schema({
   isTriggered: {
     type: Boolean,
     default: false,
-  },
-  timestamps: true,
+  }
+},
+  {
+    timestamps: true,
 });
 
 module.exports = mongoose.model('Alert', alertSchema);

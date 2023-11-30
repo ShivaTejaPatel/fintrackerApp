@@ -1,4 +1,4 @@
-const userService = require('../services/userService');
+const userService = require('../services/users.service');
 
 exports.register = async (req, res) => {
   const { username, email, password } = req.body;
@@ -22,4 +22,44 @@ exports.login = async (req, res) => {
   }
 
   res.status(200).json({ msg: loginResult.success });
+};
+
+
+
+exports.setUserDesiredRate = async (req, res) => {
+  const { userId } = req.user; // Extract user ID from the authenticated user
+  const { currencyCode, desiredRate } = req.body;
+
+  const result = await userService.setUserDesiredRate(userId, currencyCode, desiredRate);
+
+  if ('error' in result) {
+    return res.status(400).json({ msg: result.error });
+  }
+
+  res.status(200).json({ msg: result.success });
+};
+
+exports.getUserDesiredRates = async (req, res) => {
+  const { userId } = req.user; // Extract user ID from the authenticated user
+
+  const desiredRates = await userService.getUserDesiredRates(userId);
+
+  if ('error' in desiredRates) {
+    return res.status(400).json({ msg: desiredRates.error });
+  }
+
+  res.status(200).json({ desiredRates });
+};
+
+exports.deleteUserDesiredRate = async (req, res) => {
+  const { userId } = req.user; // Extract user ID from the authenticated user
+  const { currencyCode } = req.params;
+
+  const result = await userService.deleteUserDesiredRate(userId, currencyCode);
+
+  if ('error' in result) {
+    return res.status(400).json({ msg: result.error });
+  }
+
+  res.status(200).json({ msg: result.success });
 };

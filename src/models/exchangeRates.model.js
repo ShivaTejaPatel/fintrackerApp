@@ -1,7 +1,6 @@
-
 const mongoose = require('mongoose');
 
-const exchangerateSchema = new mongoose.Schema({
+const exchangeRateSchema = new mongoose.Schema({
   currencyCode_from: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'currency',
@@ -18,9 +17,7 @@ const exchangerateSchema = new mongoose.Schema({
     type: Number,
     required: true,
     unique: true
-  },
- 
-  timestamps: true,
-});
+  }
+}, { timestamps: true }); // Ensure timestamps option is provided within the options object
 
-module.exports = mongoose.model('exchangeRate', exchangerateSchema);
+module.exports = mongoose.model('exchangeRate', exchangeRateSchema);

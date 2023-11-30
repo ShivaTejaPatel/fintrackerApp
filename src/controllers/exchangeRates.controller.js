@@ -1,4 +1,4 @@
-const exchangeRateService = require('../services/exchangeRate.service');
+const exchangeRateService = require('../services/exchangeRates.service');
 
 exports.getAllExchangeRates = async (req, res) => {
   try {
