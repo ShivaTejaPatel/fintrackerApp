@@ -4,18 +4,14 @@ const currencySchema = new mongoose.Schema({
   currencyCode: {
     type: String,
     required: true,
-    unique: true,
+    
   },
-  fullname: {
+  currencyName: {
     type: String,
     required: true,
-    unique: true,
-  },
-  symbol: {
-    type: String,
-    required: true,
-    unique: true,
+  
   }
+
 },
   {
     timestamps: true

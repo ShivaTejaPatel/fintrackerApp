@@ -16,33 +16,38 @@ exports.createAlert = async (alertData) => {
     throw new Error(err.message);
   }
 };
+const currentExchangeRates = {
+  USD_EUR: 0.85, 
+  USD_JPY: 110.5, 
+  EUR_USD: 1.18, 
+};
 
 
 
-
-
-// Function to check and trigger alerts based on user-defined rates
 exports.checkAndTriggerAlerts = async () => {
   try {
-    const users = await User.find().populate('alerts'); // Assuming alerts are stored in the 'alerts' field in the User model
+    const users = await User.find().populate('alerts');
 
-    users.forEach(async (user) => {
-      const { desiredRates, alerts } = user;
+    for (const user of users) {
+      const { desiredRates, alerts, email } = user;
 
       for (const alert of alerts) {
         const { currencyCode_from, currencyCode_to, desiredRate } = alert;
         
-        // Check if the current exchange rate matches the user's desired rate
-        if (desiredRates[currencyCode_from] === desiredRate) {
+        // Simulated current exchange rate (replace this with your real logic to fetch rates)
+        const currentRate = currentExchangeRates[`${currencyCode_from}_${currencyCode_to}`];
+
+        // Check if the simulated exchange rate surpasses or equals the user's desired rate
+        if (currentRate >= desiredRate) {
           // Trigger alert (update 'isTriggered' field or perform necessary actions)
           alert.isTriggered = true;
           await alert.save();
 
           // Trigger email notification
-          await emailService.sendAlertNotification(user.email, currencyCode_from, currencyCode_to, desiredRate);
+          await emailService.sendAlertNotification(email, currencyCode_from, currencyCode_to, desiredRate);
         }
       }
-    });
+    }
 
     return { success: 'Alerts checked and triggered successfully' };
   } catch (error) {
@@ -50,4 +55,5 @@ exports.checkAndTriggerAlerts = async () => {
     return { error: 'Failed to check and trigger alerts' };
   }
 };
+
 

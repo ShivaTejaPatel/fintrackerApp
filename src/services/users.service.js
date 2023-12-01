@@ -44,28 +44,33 @@ exports.loginUser = async (email, password) => {
 };
 
 
-// userService.js
 
-// Function to set or update user's desired rate
-exports.setUserDesiredRate = async (userId, currencyCode, desiredRate) => {
+
+exports.setUserDesiredRates = async (userId, currencyRates) => {
   try {
-    // Logic to set or update the user's desired rate in the database
-    // Use userId to identify the user, currencyCode to specify the currency, and desiredRate to set the rate
-    // Update the user's desired rate in the database
+    // Logic to set or update the user's desired rates in the database
+    // Use userId to identify the user and currencyRates to specify the desired rates for different pairs
+    // Update the user's desired rates in the database
 
     // Example logic (MongoDB):
+    const updateObj = {};
+    currencyRates.forEach(({ currencyCode, desiredRate }) => {
+      updateObj[`desiredRates.${currencyCode}`] = desiredRate;
+    });
+
     await User.findOneAndUpdate(
       { _id: userId },
-      { $set: { desiredRates: { [currencyCode]: desiredRate } } },
+      { $set: updateObj },
       { new: true }
     );
 
-    return { success: 'Desired rate set/updated successfully' };
+    return { success: 'Desired rates set/updated successfully' };
   } catch (error) {
-    console.error('Error setting user desired rate:', error.message);
-    return { error: 'Failed to set desired rate' };
+    console.error('Error setting user desired rates:', error.message);
+    return { error: 'Failed to set desired rates' };
   }
 };
+
 
 // Function to get user's desired rates
 exports.getUserDesiredRates = async (userId) => {

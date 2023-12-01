@@ -7,7 +7,7 @@ const routes = require('./routes/v1');
 
 
 // Connect to MongoDB (Assuming MongoDB is running locally)
-mongoose.connect('mongodb://127.0.0.1:27017/finztrackershiva', {
+mongoose.connect('mongodb://127.0.0.1:27017/finztracker', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });

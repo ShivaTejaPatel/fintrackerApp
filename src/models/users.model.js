@@ -15,6 +15,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  currencyRates: [{
+    type:String,
+  }]
 }, {
   timestamps: true 
 });

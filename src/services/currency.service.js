@@ -16,5 +16,3 @@ exports.createCurrency = async (currencyData) => {
     throw new Error(err.message);
   }
 };
-
-// Implement other currency-related services (get by ID, update, delete) similarly

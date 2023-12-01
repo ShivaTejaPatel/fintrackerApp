@@ -20,22 +20,8 @@ exports.createAlert = async (req, res) => {
   }
 };
 
-// Implement other alert-related controllers using alertService functions (get by ID, update, delete)
-// alerts.controller.js
 
 
 
 
-exports.initiateTransactions = async (req, res) => {
-  try {
-    const result = await alertService.checkAndTriggerAlerts(); // Check and trigger alerts
-    
-    if ('error' in result) {
-      return res.status(400).json({ msg: result.error });
-    }
-    res.status(200).json({ msg: result.success });
-  } catch (error) {
-    console.error('Error initiating transactions:', error.message);
-    res.status(500).json({ msg: 'Internal Server Error' });
-  }
-};
+

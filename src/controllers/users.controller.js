@@ -26,11 +26,11 @@ exports.login = async (req, res) => {
 
 
 
-exports.setUserDesiredRate = async (req, res) => {
+exports.setUserDesiredRates = async (req, res) => {
   const { userId } = req.user; // Extract user ID from the authenticated user
-  const { currencyCode, desiredRate } = req.body;
+  const { currencyRates } = req.body; // Array of currency pairs with desired rates
 
-  const result = await userService.setUserDesiredRate(userId, currencyCode, desiredRate);
+  const result = await userService.setUserDesiredRates(userId, currencyRates);
 
   if ('error' in result) {
     return res.status(400).json({ msg: result.error });
@@ -38,6 +38,7 @@ exports.setUserDesiredRate = async (req, res) => {
 
   res.status(200).json({ msg: result.success });
 };
+
 
 exports.getUserDesiredRates = async (req, res) => {
   const { userId } = req.user; // Extract user ID from the authenticated user
