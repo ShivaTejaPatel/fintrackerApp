@@ -1,15 +1,14 @@
 const express = require('express');
+const { alertController, userController } = require('../../controllers');
 const router = express.Router();
-const UserController = require('../../controllers/users.controller');
-const AlertController = require('../../controllers/alerts.controller');
 
-router.post('/create', AlertController.createAlert);
-router.get('/', AlertController.getAllAlerts);
-router.post('/desired-rate',  UserController.setUserDesiredRate);
+router.post('/create', alertController .createAlert);
+router.get('/', alertController.getAllAlerts);
+router.post('/desired-rate',  userController.setUserDesiredRate);
 
 // Get user's desired rates
-router.get('/desired-rates',  UserController.getUserDesiredRates);
+router.get('/desired-rates',  userController.getUserDesiredRates);
 
-router.delete('/desired-rate/:currencyCode',  UserController.deleteUserDesiredRate);
+router.delete('/desired-rate/:currencyCode',  userController.deleteUserDesiredRate);
 
 module.exports = router;

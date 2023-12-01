@@ -1,10 +1,7 @@
 const express = require("express");
 const userRoute = require("./users.route");
-const config = require("../../config/config");
 const alertsRoute = require("./alerts.route");
-const transactionRoute = require("./transaction.route");
-const currencyRoute = require("./currency.route");
-
+const currencyRoute = require('./currency.route');
 
 const router = express.Router();
 
@@ -17,14 +14,9 @@ const defaultRoutes = [{
         route: alertsRoute,
     },
     {
-        path: "/transactions",
-        route: transactionRoute,
-    },
-    {
         path: "/currencies",
         route: currencyRoute,
     }
- 
 ];
 
 defaultRoutes.forEach((route) => {

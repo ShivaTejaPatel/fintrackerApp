@@ -8,13 +8,13 @@ const alertSchema = new mongoose.Schema({
     required: true,
   },
   currencyCode_from: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: 'currency',
     required: true,
     unique: true,
   },
   currencyCode_to: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     ref: 'currency',
     required: true,
     unique: true,

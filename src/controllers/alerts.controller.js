@@ -1,5 +1,5 @@
 const alertService = require('../services/alerts.service');
-const transactionService = require('../services/transaction.service');
+
 exports.getAllAlerts = async (req, res) => {
   try {
     const alerts = await alertService.getAllAlerts();
@@ -33,15 +33,7 @@ exports.initiateTransactions = async (req, res) => {
     if ('error' in result) {
       return res.status(400).json({ msg: result.error });
     }
-
-    // Perform transaction initiation based on triggered alerts
-    const transactionResult = await transactionService.initiateTransactions();
-
-    if ('error' in transactionResult) {
-      return res.status(400).json({ msg: transactionResult.error });
-    }
-
-    res.status(200).json({ msg: transactionResult.success });
+    res.status(200).json({ msg: result.success });
   } catch (error) {
     console.error('Error initiating transactions:', error.message);
     res.status(500).json({ msg: 'Internal Server Error' });

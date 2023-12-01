@@ -2,29 +2,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const exchangeRateService = require('./services/exchangeRates.service');
 const app = express();
+const routes = require('./routes/v1');
 
-
-
-// Fetch exchange rates every 1 hour (for example)
-const fetchRatesPeriodically = () => {
-  setInterval(async () => {
-    try {
-      const exchangeRates = await exchangeRateService.fetchExchangeRates();
-      // Handle fetched rates, update database, trigger alerts, etc.
-      console.log('Fetched exchange rates:', exchangeRates);
-    } catch (error) {
-      console.error('Error fetching exchange rates:', error.message);
-    }
-  }, 3600000); // 1 hour in milliseconds
-};
-
-// Call the function to start periodic fetching
-fetchRatesPeriodically();
 
 // Connect to MongoDB (Assuming MongoDB is running locally)
-mongoose.connect('mongodb://localhost/finztracker', {
+mongoose.connect('mongodb://127.0.0.1:27017/finztrackershiva', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -34,8 +17,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
-app.use('/api/users', require('./routes/v1/users.route')); // Create a separate file for user routes
-app.use('/api/alerts', require('./routes/v1/alerts.route')); // Create a separate file for alert routes
+app.use('/api',routes);
 
 // Start server
 const PORT = process.env.PORT || 3000;

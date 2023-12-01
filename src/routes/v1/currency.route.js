@@ -1,12 +1,10 @@
 const express = require('express');
+const { currencyController } = require('../../controllers');
 const router = express.Router();
-const CurrencyController = require('../../controllers/currency.controller');
 
 // Define routes for CRUD operations on currencies
-router.get('/', CurrencyController.getAllCurrencies);
-router.post('/create', CurrencyController.createCurrency);
-router.get('/:id', CurrencyController.getCurrencyById);
-router.put('/:id', CurrencyController.updateCurrency);
-router.delete('/:id', CurrencyController.deleteCurrency);
+router.get('/', currencyController.getAllCurrencies);
+router.post('/create', currencyController.createCurrency);
+
 
 module.exports = router;

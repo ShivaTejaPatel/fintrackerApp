@@ -1,6 +1,6 @@
-const currencyService = require('../services/currency.service');
+const { currencyService } = require("../services");
 
-exports.getAllCurrencies = async (req, res) => {
+const getAllCurrencies = async (req, res) => {
   try {
     const currencies = await currencyService.getAllCurrencies();
     res.status(200).json(currencies);
@@ -9,7 +9,7 @@ exports.getAllCurrencies = async (req, res) => {
   }
 };
 
-exports.createCurrency = async (req, res) => {
+const createCurrency = async (req, res) => {
   const currencyData = req.body;
 
   try {
@@ -20,4 +20,4 @@ exports.createCurrency = async (req, res) => {
   }
 };
 
-// Implement other currency-related controllers using currencyService functions
+module.exports = { getAllCurrencies, createCurrency }
