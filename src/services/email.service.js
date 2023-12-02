@@ -1,23 +1,21 @@
 
 const nodemailer = require('nodemailer');
 
-// Function to send email notifications for triggered alerts
+
 exports.sendAlertNotification = async (recipient, currency_from, currency_to, desiredRate) => {
   try {
-    // Configure nodemailer for sending email notifications
     const transporter = nodemailer.createTransport({
-      // Specify your email sending configuration (SMTP, service, etc.)
-      // Example (using Gmail):
+      
       service: 'Gmail',
       auth: {
-        user: 'your-email@gmail.com',
-        pass: 'your-password',
+        user: 'b181332@rgukt.ac.in',
+        pass: 'B181332@12',
       },
     });
 
     // Create email content
     const mailOptions = {
-      from: 'your-email@gmail.com',
+      from: 'b181332@rgukt.ac.in',
       to: recipient,
       subject: 'Alert Notification: Desired Rate Reached',
       text: `Your desired rate of ${desiredRate} for ${currency_from}-${currency_to} has been reached.`,

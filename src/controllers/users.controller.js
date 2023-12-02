@@ -1,3 +1,4 @@
+const { use } = require('../routes/v1/alerts.route');
 const userService = require('../services/users.service');
 
 exports.register = async (req, res) => {
@@ -24,43 +25,12 @@ exports.login = async (req, res) => {
   res.status(200).json({ msg: loginResult.success });
 };
 
-
-
-exports.setUserDesiredRates = async (req, res) => {
-  const { userId } = req.user; // Extract user ID from the authenticated user
-  const { currencyRates } = req.body; // Array of currency pairs with desired rates
-
-  const result = await userService.setUserDesiredRates(userId, currencyRates);
-
-  if ('error' in result) {
-    return res.status(400).json({ msg: result.error });
+exports.checkAndTriggerAlerts = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const alerts = await userService.checkAndTriggerAlerts(id);
+    res.status(200).json(alerts);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
-
-  res.status(200).json({ msg: result.success });
-};
-
-
-exports.getUserDesiredRates = async (req, res) => {
-  const { userId } = req.user; // Extract user ID from the authenticated user
-
-  const desiredRates = await userService.getUserDesiredRates(userId);
-
-  if ('error' in desiredRates) {
-    return res.status(400).json({ msg: desiredRates.error });
-  }
-
-  res.status(200).json({ desiredRates });
-};
-
-exports.deleteUserDesiredRate = async (req, res) => {
-  const { userId } = req.user; // Extract user ID from the authenticated user
-  const { currencyCode } = req.params;
-
-  const result = await userService.deleteUserDesiredRate(userId, currencyCode);
-
-  if ('error' in result) {
-    return res.status(400).json({ msg: result.error });
-  }
-
-  res.status(200).json({ msg: result.success });
-};
+}

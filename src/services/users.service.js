@@ -22,6 +22,7 @@ exports.registerUser = async (username, email, password) => {
   }
 };
 
+
 exports.loginUser = async (email, password) => {
   try {
     let user = await User.findOne({ email });
@@ -36,6 +37,10 @@ exports.loginUser = async (email, password) => {
       return { error: 'Invalid credentials' };
     }
 
+  
+    user.isLoggedIn = true;
+    await user.save();
+
     return { success: 'Logged in successfully' };
   } catch (err) {
     console.error(err.message);
@@ -44,9 +49,76 @@ exports.loginUser = async (email, password) => {
 };
 
 
+exports.logoutUser = async (userId) => {
+  try {
+    let user = await User.findById(userId);
+
+    if (!user) {
+      return { error: 'User not found' };
+    }
+
+    user.isLoggedIn = false;
+    await user.save();
+
+    return { success: 'Logged out successfully' };
+  } catch (err) {
+    console.error(err.message);
+    return { error: 'Server Error' };
+  }
+};
+
+const currentExchangeRates = {
+  USD_EUR: 0.85, 
+  USD_JPY: 110.5, 
+  EUR_USD: 1.18, 
+};
 
 
-exports.setUserDesiredRates = async (userId, currencyRates) => {
+
+exports.checkAndTriggerAlerts = async (userId) => {
+  try {
+    // Fetch the user by ID with their alerts
+    const user = await User.findById(userId).populate('alerts');
+
+    if (!user) {
+      return { error: 'User not found' };
+    }
+
+    const { desiredRates, alerts, email } = user;
+
+    for (const alert of alerts) {
+      const { currencyCode_from, currencyCode_to, desiredRate } = alert;
+
+      // Simulated current exchange rate (replace this with your real logic to fetch rates)
+      const currentRate = currentExchangeRates[`${currencyCode_from}_${currencyCode_to}`];
+
+      // Check if the simulated exchange rate surpasses or equals the user's desired rate
+      if (currentRate >= desiredRate) {
+        // Trigger alert (update 'isTriggered' field or perform necessary actions)
+        alert.isTriggered = true;
+        await alert.save();
+
+        // Trigger email notification
+        await emailService.sendAlertNotification(email, currencyCode_from, currencyCode_to, desiredRate);
+      }
+    }
+
+    return { success: 'Alerts checked and triggered successfully' };
+  } catch (error) {
+    console.error('Error checking and triggering alerts:', error.message);
+    return { error: 'Failed to check and trigger alerts' };
+  }
+};
+
+
+
+
+
+
+
+
+
+/*exports.setUserDesiredRates = async (userId, currencyRates) => {
   try {
     // Logic to set or update the user's desired rates in the database
     // Use userId to identify the user and currencyRates to specify the desired rates for different pairs
@@ -105,3 +177,4 @@ exports.deleteUserDesiredRate = async (userId, currencyCode) => {
     return { error: 'Failed to delete desired rate' };
   }
 };
+*/
